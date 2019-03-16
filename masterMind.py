@@ -2,6 +2,7 @@
 
 import argparse
 import sys
+import ANSIColors as AC
 
 #prepare parser for initial options
 def prep_parser():
@@ -24,17 +25,32 @@ def human_choose_color(allColors,nPegs):
     while i < nPegs:
         color = input("Color " + str(i+1) + ": ")
         if color in allColors:
+            code.append(color)
             i = i + 1
         else:
             print("Enter a valid color, available colors: " + str(allColors))
 
+    return code
+
+#print any code given with colors!
+def print_code(code):
+    for color in code:
+        ansi = ANSIColors.ret_ansi(color)
+
 
 ##      main program    ##
 if __name__== "__main__":
-    colors  = ["red","yellow","orange","blue","green"]
+    ansiColors = AC.bcolors()
+    colors  = ["red","yellow","blue","green","white"]
     nPegs   = 4 #number of positions
     parser  = prep_parser()
     options = parser.parse_args()
 
     if options.player1 == "me":
         code = human_choose_color(colors,nPegs)
+
+    print("\nCode: " + str(code))
+
+    print (ansiColors.ret_ansi("yellow") + "TEST wordssss" + ansiColors.ret_ansi("ENDC"))
+
+    #print_code(code)
