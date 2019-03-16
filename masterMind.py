@@ -36,7 +36,7 @@ def human_choose_color(allColors,nPegs):
 def print_code(code, ansiColors):
     for color in code:
         ansi = ansiColors.ret_ansi(color)
-        print( ansi + "o" + ansiColors.ret_ansi("ENDC") + " ", end="")
+        print( ansi + "_" + ansiColors.ret_ansi("ENDC") + " ", end="")
     print("")
 
 #human plays to guess the color (for testing the game)
