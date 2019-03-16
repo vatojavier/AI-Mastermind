@@ -14,4 +14,5 @@ To test the game the options for player1 and player2 are "me" or "ai":
         python3 masterMind.py -p1 me -p2 me
 
 Player1 CHOOSES the goal code
+
 Player2 GUESSES the code
