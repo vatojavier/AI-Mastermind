@@ -5,10 +5,12 @@ To execute the program:
 
 To test the game the options for player1 and player2 are "me" or "ai":
     
-    Example:
+   Example:
+    
     python3 masterMind.py -p1 me -p2 ai
 
-    Default:
+   Default:
+    
         python3 masterMind.py -p1 me -p2 me
 
 Player1 CHOOSES the goal code
