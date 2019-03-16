@@ -4,7 +4,7 @@ import argparse
 import sys
 import ANSIColors as AC
 
-#prepare parser for initial options
+#prepare parser for initial options (for testing stuff)
 def prep_parser():
     parser = argparse.ArgumentParser(description="Master Mind Game")
 
@@ -15,7 +15,7 @@ def prep_parser():
         help="Player 2 who GUESSES goal colors (me or ai)",default="me")
     return parser
 
-
+#makes the human choose a color
 def human_choose_color(allColors,nPegs):
     code = []
     print("Available colors: " + str(allColors))
@@ -39,19 +39,29 @@ def print_code(code, ansiColors):
         print( ansi + "o" + ansiColors.ret_ansi("ENDC") + " ", end="")
     print("")
 
+#human plays to guess the color (for testing the game)
+def human_guesse_color(colors,nPegs,code):
+    pass
 
 ##      main program    ##
 if __name__== "__main__":
-    ansiColors = AC.bcolors()
-    colors  = ["red","yellow","blue","green","white"]
+    ansiColors = AC.bcolors() #colors class
+    colors  = ["red","yellow","blue","green","white"] #available colors
     nPegs   = 4 #number of positions
     parser  = prep_parser()
     options = parser.parse_args()
 
     if options.player1 == "me":
         code = human_choose_color(colors,nPegs)
+    else:
+        print("No AI implemented to choose a code")
+        exit()
 
-    print("\nCode: " + str(code))
+    if options.player2 == "ai":
+        #Insert here AI functions to guess the code
+        print("No AI implemented to guess the code")
+    else:
+        human_guesse_color(colors,nPegs,code)
 
     print ("Selected code: ")
 
