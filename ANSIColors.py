@@ -7,6 +7,7 @@ class bcolors:
         self.WHITE = '\033[47m'
         self.ENDC = '\033[0m'
 
+    #returns ansi color depending on the input
     def ret_ansi(self, color):
         if color == "red":
             return self.RED

@@ -33,9 +33,11 @@ def human_choose_color(allColors,nPegs):
     return code
 
 #print any code given with colors!
-def print_code(code):
+def print_code(code, ansiColors):
     for color in code:
-        ansi = ANSIColors.ret_ansi(color)
+        ansi = ansiColors.ret_ansi(color)
+        print( ansi + "o" + ansiColors.ret_ansi("ENDC") + " ", end="")
+    print("")
 
 
 ##      main program    ##
@@ -51,6 +53,6 @@ if __name__== "__main__":
 
     print("\nCode: " + str(code))
 
-    print (ansiColors.ret_ansi("yellow") + "TEST wordssss" + ansiColors.ret_ansi("ENDC"))
+    print ("Selected code: ")
 
-    #print_code(code)
+    print_code(code,ansiColors)
