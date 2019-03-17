@@ -86,7 +86,7 @@ if __name__== "__main__":
 
     AI = AIEntity.AIEntity(len(allColors),nPegs) #Creating AI entity
     print(str(code) + "<---Code")
-
+    print("-------------Guesses-------------")
     #loop of the game
     for i in range(10):
         guess = AI.guess()
