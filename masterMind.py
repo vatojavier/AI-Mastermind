@@ -1,68 +1,93 @@
-#!/usr/bin/env python3
-
+import AIEntity
+import numpy as np
 import argparse
-import sys
-import ANSIColors as AC
+import copy
 
 #prepare parser for initial options (for testing stuff)
 def prep_parser():
-    parser = argparse.ArgumentParser(description="Master Mind Game")
+    parser = argparse.ArgumentParser(description="Master Mind Game with AI I guess")
 
-    parser.add_argument("-p1","--player1",dest="player1",
-        help="Player 1 who CHOOSSES goal colors (me or ai)",default="me")
+    parser.add_argument("-c","--code",dest="code_gen",
+        help="The way the goal code is generated (random or me), default = random",default="random")
 
-    parser.add_argument("-p2","--player2",dest="player2",
-        help="Player 2 who GUESSES goal colors (me or ai)",default="me")
-    return parser
+    options = parser.parse_args()
+
+    return options
 
 #makes the human choose a color
 def human_choose_color(allColors,nPegs):
-    code = []
-    print("Available colors: " + str(allColors))
+
+    code = np.zeros((nPegs,), dtype=int)
+
+    print("Available colors: " + str(len(allColors)))
     print("Choose goal color code: ")
 
     i = 0
     while i < nPegs:
-        color = input("Color " + str(i+1) + ": ")
-        if color in allColors:
-            code.append(color)
+        color = int(input("Color " + str(i+1) + ": "))
+        if (color > 0 and color <= len(allColors)):
+            code[i] = color
             i = i + 1
         else:
-            print("Enter a valid color, available colors: " + str(allColors))
-
+            print("Enter a valid color, available colors: " + str(len(allColors)))
+    print(code)
     return code
 
-#print any code given with colors!
-def print_code(code, ansiColors):
-    for color in code:
-        ansi = ansiColors.ret_ansi(color)
-        print( ansi + "_" + ansiColors.ret_ansi("ENDC") + " ", end="")
-    print("")
+###         functions of the board      ###
 
-#human plays to guess the color (for testing the game)
-def human_guesse_color(colors,nPegs,code):
-    pass
+#generate goal code randomly
+def generate_code(allColors,nPegs):
+
+    code = np.random.randint(1,high=len(allColors) + 1, size=nPegs)
+    print(code)
+    return code
+
+#compares code and guess and returns black and whites stuff
+def gen_info(guess,code):
+    info = [None,None,None,None]
+    black = 0
+    white = 0
+    peg_compare = copy.deepcopy(guess)
+    code_compare = copy.deepcopy(code)
+
+    for i in range(4):
+        if peg_compare[i] == code_compare[i]:
+            black += 1
+            peg_compare[i] = 0
+            code_compare[i] = -1
+
+    for i in range(4):
+        for j in range(4):
+            if (code_compare[i] == peg_compare[j]) and (i != j):
+                white += 1
+                peg_compare[j] = 0
+                code_compare[i] = -1
+                break
+
+    for i in range(black):
+        info[i] = 1
+
+    for i in range(black, black + white):
+        info[i] = 0
+
+    print(info)
+# Prints the status of the Pegs during current play
+# dev status screen
+
 
 ##      main program    ##
 if __name__== "__main__":
-    ansiColors = AC.bcolors() #colors class
-    colors  = ["red","yellow","blue","green","white"] #available colors
-    nPegs   = 4 #number of positions
-    parser  = prep_parser()
-    options = parser.parse_args()
 
-    if options.player1 == "me":
-        code = human_choose_color(colors,nPegs)
+    allColors = ["red","yellow","blue","green","white"] #available colors
+    nPegs = 4   #number of holes
+    options = prep_parser()
+
+    if options.code_gen == "random":
+        code = generate_code(allColors,nPegs) #code will generate randomly
     else:
-        print("No AI implemented to choose a code")
-        exit()
+        code = human_choose_color(allColors,nPegs) #code selected by human
 
-    if options.player2 == "ai":
-        #Insert here AI functions to guess the code
-        print("No AI implemented to guess the code")
-    else:
-        human_guesse_color(colors,nPegs,code)
+    AI = AIEntity.AIEntity(len(allColors),nPegs) #Creating AI entity
 
-    print ("Selected code: ")
-
-    print_code(code,ansiColors)
+    guess = AI.guess()
+    AI.info = gen_info(code,guess)
