@@ -39,7 +39,6 @@ def human_choose_color(allColors,nPegs):
 def generate_code(allColors,nPegs):
 
     code = np.random.randint(1,high=len(allColors) + 1, size=nPegs)
-    print(code)
     return code
 
 #compares code and guess and returns black and whites stuff
@@ -70,9 +69,7 @@ def gen_info(guess,code):
     for i in range(black, black + white):
         info[i] = 0
 
-    print(info)
-# Prints the status of the Pegs during current play
-# dev status screen
+    return info
 
 
 ##      main program    ##
@@ -88,6 +85,9 @@ if __name__== "__main__":
         code = human_choose_color(allColors,nPegs) #code selected by human
 
     AI = AIEntity.AIEntity(len(allColors),nPegs) #Creating AI entity
+    print(str(code) + "<---Code")
 
-    guess = AI.guess()
-    AI.info = gen_info(code,guess)
+    for i in range(10):
+        guess = AI.guess()
+        AI.info = gen_info(code,guess)
+        print(guess , AI.info)

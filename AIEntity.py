@@ -21,7 +21,6 @@ class AIEntity:
         def guess(self):
 
             guess = np.random.randint(1,high=self.allColors + 1, size=self.nPegs)
-            print(guess)
             return guess
 
         #reduces the pool
