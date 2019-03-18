@@ -80,11 +80,12 @@ if __name__== "__main__":
     options = prep_parser()
 
     if options.code_gen == "random":
-        code = generate_code(allColors,nPegs) #code will generate randomly
-    else:
-        code = human_choose_color(allColors,nPegs) #code selected by human
+        code = generate_code(allColors,nPegs) #code will be generate randomly
+    elif options.code_gen == "me":
+        code = human_choose_color(allColors,nPegs) #code will be selected by human
 
     AI = AIEntity.AIEntity(len(allColors),nPegs) #Creating AI entity
+    
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
     #loop of the game
