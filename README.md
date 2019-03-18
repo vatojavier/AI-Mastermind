@@ -1,23 +1,10 @@
 # AI-Mastermind
-To execute the program:
+To execute the program with a random code and AI guessing:
 
     python3 masterMind.py
 
-To test the game the options are -c:
+To enter manually the goal code use options -c me:
 
    Example:
 
-        python3 masterMind.py
-
-Random goal code will be generated
-
-   Default:
-
-        python3 masterMind.py -c random
-
-Random goal code will be generated
-
-
-   Manually gen code:
-
-     python3 masterMind.py -c me
+        python3 masterMind.py -c me
