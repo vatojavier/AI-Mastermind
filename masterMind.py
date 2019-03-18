@@ -8,7 +8,7 @@ def prep_parser():
     parser = argparse.ArgumentParser(description="Master Mind Game with AI I guess")
 
     parser.add_argument("-c","--code",dest="code_gen",
-        help="The way the goal code is generated (random or me), default = random",default="random")
+        help="The way the goal code is generated (random or manual), default = random",default="random")
 
     options = parser.parse_args()
 
@@ -81,11 +81,11 @@ if __name__== "__main__":
 
     if options.code_gen == "random":
         code = generate_code(allColors,nPegs) #code will be generate randomly
-    elif options.code_gen == "me":
+    else:
         code = human_choose_color(allColors,nPegs) #code will be selected by human
 
     AI = AIEntity.AIEntity(len(allColors),nPegs) #Creating AI entity
-    
+
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
     #loop of the game
