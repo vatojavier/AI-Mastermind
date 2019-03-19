@@ -54,7 +54,8 @@ if __name__== "__main__":
     else:
         code = human_choose_color(allColors, nPegs) #code will be selected by human
 
-    AI = AIEntity.AIEntity(len(allColors), nPegs) #Creating AI entity
+    #Creating AI entity
+    AI = AIEntity.AIEntity(len(allColors), nPegs)
 
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
@@ -63,4 +64,5 @@ if __name__== "__main__":
     guess = AI.guess()
     AI.info = AI.gen_info(code, guess)
     print(guess, AI.info)
-    #AI.reduce_pool()
+    AI.reduce_pool()
+    print(AI.reduced_pool)
