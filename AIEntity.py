@@ -1,4 +1,4 @@
-
+import itertools
 import numpy as np
 
 class AIEntity:
@@ -15,7 +15,14 @@ class AIEntity:
 
         #generates initial pool of 625 (with 5 different colors)
         def generate_pool(self):
-            pass
+            colors = []
+
+            for i in range(self.allColors):
+                colors.append(i + 1)
+
+            pool_list   = [p for p in itertools.product(colors, repeat=4)]
+            pool        = np.array(pool_list)
+            return pool
 
         #makes a new guess
         def guess(self):
