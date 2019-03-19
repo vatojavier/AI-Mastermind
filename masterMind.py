@@ -1,4 +1,4 @@
-import AIEntity
+from AIEntity import AIEntity
 import numpy as np
 import argparse
 import copy
@@ -33,33 +33,36 @@ def human_choose_color(allColors,nPegs):
     print(code)
     return code
 
+
 ###         functions of the board      ###
 
-#generate goal code randomly
+#Generates goal code randomly
 def generate_code(allColors,nPegs):
 
     code = np.random.randint(1,high=len(allColors) + 1, size=nPegs)
     return code
-# compares code and guess and returns black and whites stuff
 
 ##      main program    ##
 if __name__== "__main__":
 
-    allColors = ["red","yellow","blue","green","white"] #available colors
+    allColors = ["red", "yellow", "blue", "green", "white"] #available colors
     nPegs = 4   #number of holes
     options = prep_parser()
 
     if options.code_gen == "random":
-        code = generate_code(allColors,nPegs) #code will be generate randomly
+        code = generate_code(allColors, nPegs) #code will be generate randomly
     else:
-        code = human_choose_color(allColors,nPegs) #code will be selected by human
+        code = human_choose_color(allColors, nPegs) #code will be selected by human
 
-    AI = AIEntity.AIEntity(len(allColors),nPegs) #Creating AI entity
+    #Creating AI entity
+    AI = AIEntity(len(allColors), nPegs)
 
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
+
     #loop of the game
-    for i in range(10):
-        guess = AI.guess()
-        AI.info = AI.gen_info(code, guess)
-        print(guess, AI.info)
+    guess = AI.guess()
+    AI.info = AI.gen_info(code, guess)
+    print(guess, AI.info)
+    AI.reduce_pool()
+    print(AI.get_reduced_pool())
