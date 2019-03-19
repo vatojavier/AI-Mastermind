@@ -1,4 +1,4 @@
-import AIEntity
+from AIEntity import AIEntity
 import numpy as np
 import argparse
 import copy
@@ -55,14 +55,15 @@ if __name__== "__main__":
         code = human_choose_color(allColors, nPegs) #code will be selected by human
 
     #Creating AI entity
-    AI = AIEntity.AIEntity(len(allColors), nPegs)
+    AI = AIEntity(len(allColors), nPegs)
 
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
-    #loop of the game
 
-    guess = AI.guess()
-    AI.info = AI.gen_info(code, guess)
-    print(guess, AI.info)
-    AI.reduce_pool()
-    print(AI.reduced_pool)
+    #loop of the game
+    for i in range(10):
+        guess = AI.guess()
+        AI.info = AI.gen_info(code, guess)
+        print(guess, AI.info)
+        AI.reduce_pool()
+        print(AI.get_reduced_pool())

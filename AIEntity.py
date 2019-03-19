@@ -5,13 +5,13 @@ from random import randint
 
 
 class AIEntity:
-    allColors = 0
-    nPegs = 0
-    pool = None     #Pool with all possible combinations, we don't know yet how big
-    size = 0        #size of the new pool
-    guess = None    #A new guess, we don't now yet how many pegs
-    info = None     #Info given by comparing code with guess
-    reduced_pool = None
+    __allColors = 0
+    __nPegs = 0
+    __pool = None     #Pool with all possible combinations, we don't know yet how big
+    __size = 0        #size of the new pool
+    __guess = None    #A new guess, we don't now yet how many pegs
+    __info = None     #Info given by comparing code with guess
+    __reduced_pool = None
 
     def __init__(self, allColors, nPegs):
         self.allColors = allColors
@@ -34,7 +34,7 @@ class AIEntity:
     #Makes a new guess to be compared with the code
     def guess(self):
         guess = self.pool[randint(0,self.size)] #taking a random permutation from the pool
-        self.guess = guess
+        self.__guess = guess
         return guess
 
     #Returns the "black and white" info by comparing guess and code params
@@ -84,17 +84,12 @@ class AIEntity:
         counter = 0
 
         for combination in self.pool:
-            new_info = self.gen_info(combination, self.guess)
+            new_info = self.gen_info(combination, self.__guess)
             new_info = np.array(new_info)
             if np.array_equal(new_info, self.info):
                 new_pool.append(combination)
 
-        #for i in range(0,self.size):
-        #    print(self.guess)
-        #    new_info = self.gen_info(self.pool[i], self.guess)
-        #    new_info = np.array(new_info)
-        #    if np.array_equal(new_info, self.info):
-        #        new_pool.append(self.pool[i])
+        self.__reduced_pool = new_pool
 
-        self.reduced_pool = new_pool
-        #self.size = counter
+    def get_reduced_pool(self):
+        return self.__reduced_pool
