@@ -1,6 +1,5 @@
 import itertools
 import copy
-
 import numpy as np
 
 
@@ -27,10 +26,7 @@ class AIEntity:
 
             pool_list = [p for p in itertools.product(colors, repeat=4)]
             pool = np.array(pool_list)
-
-            pool_list   = [p for p in itertools.product(colors, repeat=4)]
-            pool        = np.array(pool_list)
-
+            self.size = len(pool)
             return pool
 
         #makes a new guess
@@ -39,7 +35,7 @@ class AIEntity:
             guess = np.random.randint(1,high=self.allColors + 1, size=self.nPegs)
             return guess
 
-        def gen_info(self,guess, code):
+        def gen_info(self, guess, code):
             info = [None, None, None, None]
             black = 0
             white = 0
@@ -74,9 +70,12 @@ class AIEntity:
             counter = 0
             for i in range(0,self.size):
                 new_info = self.gen_info(self.pool[i], self.guess)
-                if new_info == self.info:
+                new_info = np.array(new_info)
+                if np.array_equal(new_info, self.info):
                     counter += 1
-                    new_pool[counter] = i
+                    new_pool[counter] = self.pool[i]
+                    print("in loop")
+
 
             self.pool = new_pool
             self.size = counter
