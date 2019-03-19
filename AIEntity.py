@@ -7,7 +7,7 @@ class AIEntity:
         guess = np.zeros((4,), dtype=int)
         info = np.zeros((4,), dtype=int)
         pool = np.zeros((625,), dtype=int)#[4,256] array
-        size = 0
+        size = 0    #size of the new reduced pool
         allColors = 0
         nPegs = 0
 
@@ -17,7 +17,6 @@ class AIEntity:
             self.pool = self.generate_pool() #generate the pool depending on number of colors
 
         #generates initial pool of 625 (with 5 different colors)
-
         def generate_pool(self):
             colors = []
 
@@ -33,8 +32,10 @@ class AIEntity:
         def guess(self):
 
             guess = np.random.randint(1,high=self.allColors + 1, size=self.nPegs)
+            self.guess = guess
             return guess
 
+        #return a "black and white" info by comparing guess and code params as arrays
         def gen_info(self, guess, code):
             info = [None, None, None, None]
             black = 0
@@ -66,17 +67,18 @@ class AIEntity:
 
         # reduces the pool
         def reduce_pool(self):
-            new_pool = np.zeros((625,),dtype=int)
+            new_pool = [] #np.zeros((625,),dtype=int)
             counter = 0
+
             for i in range(0,self.size):
+                print(self.guess)
+
                 new_info = self.gen_info(self.pool[i], self.guess)
                 new_info = np.array(new_info)
                 if np.array_equal(new_info, self.info):
-                    counter += 1
-                    new_pool[counter] = self.pool[i]
+                    new_pool.append(self.pool[i]) 
                     print("in loop")
 
 
             self.pool = new_pool
             self.size = counter
-
