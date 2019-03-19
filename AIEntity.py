@@ -8,7 +8,6 @@ class AIEntity:
     allColors = 0
     nPegs = 0
     pool = None     #Pool with all possible combinations, we don't know yet how big
-    size = 0        #size of the new pool
     new_guess = None    #A new guess, we don't now yet how many pegs
     info = None     #Info given by comparing code with guess
     reduced_pool = None
@@ -17,7 +16,6 @@ class AIEntity:
         self.allColors = allColors
         self.nPegs = nPegs
         self.pool = self.generate_pool() #generate the pool depending on number of colors
-        self.size = len(self.pool)
 
     #Generates initial pool of 625 (with 5 different colors)
     def generate_pool(self):
@@ -33,7 +31,7 @@ class AIEntity:
 
     #Makes a new guess to be compared with the code
     def guess(self):
-        guess = self.pool[randint(0,self.size)] #taking a random permutation from the pool
+        guess = self.pool[randint(0,len(self.pool))] #taking a random permutation from the pool
         self.new_guess = guess
         return guess
 
