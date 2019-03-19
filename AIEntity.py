@@ -1,6 +1,7 @@
 import itertools
 import copy
 import numpy as np
+from random import randint
 
 
 class AIEntity:
@@ -31,7 +32,7 @@ class AIEntity:
         #makes a new guess
         def guess(self):
 
-            guess = np.random.randint(1,high=self.allColors + 1, size=self.nPegs)
+            guess = self.pool[randint(0,self.size)] #taking a random permutation from the pool
             self.guess = guess
             return guess
 
@@ -71,13 +72,13 @@ class AIEntity:
             counter = 0
 
             for i in range(0,self.size):
-                print(self.guess)
+                #print(self.guess)
 
                 new_info = self.gen_info(self.pool[i], self.guess)
                 new_info = np.array(new_info)
                 if np.array_equal(new_info, self.info):
-                    new_pool.append(self.pool[i]) 
-                    print("in loop")
+                    new_pool.append(self.pool[i])
+
 
 
             self.pool = new_pool
