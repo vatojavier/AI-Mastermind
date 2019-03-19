@@ -7,41 +7,52 @@ from random import randint
 class AIEntity:
     allColors = 0
     nPegs = 0
-    guess = np.zeros((4,), dtype=int)
-    info = np.zeros((4,), dtype=int)
-    pool = np.zeros((625,), dtype=int)
-    size = 0    #size of the new reduced pool
-
+    pool = None     #Pool with all possible combinations, we don't know yet how big
+    size = 0        #size of the new pool
+    guess = None    #A new guess, we don't now yet how many pegs
+    info = None     #Info given by comparing code with guess
 
     def __init__(self, allColors, nPegs):
         self.allColors = allColors
         self.nPegs = nPegs
         self.pool = self.generate_pool() #generate the pool depending on number of colors
+        self.size = len(self.pool)
 
-    #generates initial pool of 625 (with 5 different colors)
+    #Generates initial pool of 625 (with 5 different colors)
     def generate_pool(self):
         colors = []
 
+        #creates the different colors [1,2,3,4,5] or more depending on allColors
         for i in range(self.allColors):
             colors.append(i + 1)
 
-        pool_list = [p for p in itertools.product(colors, repeat=self.nPegs)]
-        pool = np.array(pool_list)
-        self.size = len(pool)
+        #Inserting all possible permutations of colors in th pool
+        pool = [p for p in itertools.product(colors, repeat=self.nPegs)]
         return pool
 
-    #makes a new guess
+    #Makes a new guess to be compared with the code
     def guess(self):
 
         guess = self.pool[randint(0,self.size)] #taking a random permutation from the pool
         self.guess = guess
         return guess
 
-    #return a "black and white" info by comparing guess and code params as arrays
+    #Returns the "black and white" info by comparing guess and code params
     def gen_info(self, guess, code):
-        info = [None, None, None, None]
+        info = []
         black = 0
         white = 0
+
+        #Converting guess and code to arrays to operate with them
+        guess = np.array(guess)
+        code = np.array(code)
+
+        #Creating empy info     REMOVES HARDCODE BUT SLOW, MAYBE ENTER PARMETER AS ARRAY INSTEAD
+        for i in range(self.nPegs):
+            info.append(None)
+
+        #info = np.array(info)
+
         peg_compare = copy.deepcopy(guess)
         code_compare = copy.deepcopy(code)
 

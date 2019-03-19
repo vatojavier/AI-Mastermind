@@ -35,14 +35,12 @@ def human_choose_color(allColors,nPegs):
 
 
 ###         functions of the board      ###
-#generate goal code randomly
 
-
+#Generates goal code randomly
 def generate_code(allColors,nPegs):
 
     code = np.random.randint(1,high=len(allColors) + 1, size=nPegs)
     return code
-# compares code and guess and returns black and whites stuff
 
 ##      main program    ##
 if __name__== "__main__":
@@ -65,4 +63,4 @@ if __name__== "__main__":
     guess = AI.guess()
     AI.info = AI.gen_info(code, guess)
     print(guess, AI.info)
-    AI.reduce_pool()
+    #AI.reduce_pool()
