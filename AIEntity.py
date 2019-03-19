@@ -44,14 +44,14 @@ class AIEntity:
             peg_compare = copy.deepcopy(guess)
             code_compare = copy.deepcopy(code)
 
-            for i in range(4):
+            for i in range(self.nPegs):
                 if peg_compare[i] == code_compare[i]:
                     black += 1
                     peg_compare[i] = 0
                     code_compare[i] = -1
 
-            for i in range(4):
-                for j in range(4):
+            for i in range(self.nPegs):
+                for j in range(self.nPegs):
                     if (code_compare[i] == peg_compare[j]) and (i != j):
                         white += 1
                         peg_compare[j] = 0
