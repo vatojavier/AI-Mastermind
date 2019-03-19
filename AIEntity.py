@@ -4,7 +4,7 @@ import numpy as np
 class AIEntity:
         guess = np.zeros((4,),dtype=int)
         info = np.zeros((4,),dtype=int)
-        pool = np.zeros((4,256),dtype=int) #[4,256] array
+        pool = np.zeros((625,),dtype=int) #[4,256] array
         allColors = 0
         nPegs = 0
 
