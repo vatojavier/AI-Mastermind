@@ -40,37 +40,7 @@ def generate_code(allColors,nPegs):
 
     code = np.random.randint(1,high=len(allColors) + 1, size=nPegs)
     return code
-
-#compares code and guess and returns black and whites stuff
-def gen_info(guess,code):
-    info = [None,None,None,None]
-    black = 0
-    white = 0
-    peg_compare = copy.deepcopy(guess)
-    code_compare = copy.deepcopy(code)
-
-    for i in range(4):
-        if peg_compare[i] == code_compare[i]:
-            black += 1
-            peg_compare[i] = 0
-            code_compare[i] = -1
-
-    for i in range(4):
-        for j in range(4):
-            if (code_compare[i] == peg_compare[j]) and (i != j):
-                white += 1
-                peg_compare[j] = 0
-                code_compare[i] = -1
-                break
-
-    for i in range(black):
-        info[i] = 1
-
-    for i in range(black, black + white):
-        info[i] = 0
-
-    return info
-
+# compares code and guess and returns black and whites stuff
 
 ##      main program    ##
 if __name__== "__main__":
@@ -91,5 +61,5 @@ if __name__== "__main__":
     #loop of the game
     for i in range(10):
         guess = AI.guess()
-        AI.info = gen_info(code,guess)
-        print(guess , AI.info)
+        AI.info = AI.gen_info(code, guess)
+        print(guess, AI.info)
