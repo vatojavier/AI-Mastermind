@@ -1,5 +1,6 @@
 import itertools
 import copy
+
 import numpy as np
 
 
@@ -26,6 +27,10 @@ class AIEntity:
 
             pool_list = [p for p in itertools.product(colors, repeat=4)]
             pool = np.array(pool_list)
+
+            pool_list   = [p for p in itertools.product(colors, repeat=4)]
+            pool        = np.array(pool_list)
+
             return pool
 
         #makes a new guess
