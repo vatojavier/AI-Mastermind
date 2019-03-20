@@ -36,6 +36,14 @@ def human_choose_color(allColors,nPegs):
 
 ###         functions of the board      ###
 
+#Just creates the [Black, Black, Black, Black] info
+def generate_goal_info(nPegs):
+    goal_info = []
+    for i in range(nPegs):
+        goal_info.append(1);
+
+    return goal_info
+
 #Generates goal code randomly
 def generate_code(allColors,nPegs):
 
@@ -48,7 +56,7 @@ if __name__== "__main__":
     allColors = ["red", "yellow", "blue", "green", "white"] #available colors
     nPegs = 4   #number of holes
     options = prep_parser()
-
+    goal_info = generate_goal_info(nPegs)
     if options.code_gen == "random":
         code = generate_code(allColors, nPegs) #code will be generate randomly
     else:
@@ -60,13 +68,11 @@ if __name__== "__main__":
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
 
-    for i in range(4):
+    for i in range(10):
         guess = AI.guess()
         AI.info = AI.gen_info(code, guess)
         print(guess, AI.info)
-        print(str(len(AI.pool)) + "<---Size of original pool")
         AI.reduce_pool()
-
-        print("\n\n")
-        print(str(len(AI.pool)) + "<---Size of the reduced pool")
-        print(AI.pool)
+        if AI.info == goal_info:#np.array_equal(np.array(goal_info),AI.info):
+            print("AI wins the game")
+            break
