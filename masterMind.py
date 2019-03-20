@@ -73,6 +73,6 @@ if __name__== "__main__":
         AI.info = AI.gen_info(code, guess)
         print(guess, AI.info)
         AI.reduce_pool()
-        if AI.info == goal_info:#np.array_equal(np.array(goal_info),AI.info):
+        if AI.info == goal_info:
             print("AI wins the game")
             break
