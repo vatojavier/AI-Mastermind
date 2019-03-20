@@ -60,12 +60,13 @@ if __name__== "__main__":
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
 
-    for i in range(1):
+    for i in range(4):
         guess = AI.guess()
         AI.info = AI.gen_info(code, guess)
         print(guess, AI.info)
+        print(str(len(AI.pool)) + "<---Size of original pool")
         AI.reduce_pool()
 
         print("\n\n")
-        print(str(len(AI.pool)) + "<---Size of original pool")
-        print(str(len(AI.reduced_pool)) + "<---Size of the reduced pool")
+        print(str(len(AI.pool)) + "<---Size of the reduced pool")
+        print(AI.pool)

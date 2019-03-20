@@ -10,7 +10,7 @@ class AIEntity:
     pool = None     #Pool with all possible combinations, we don't know yet how big
     new_guess = None    #A new guess, we don't now yet how many pegs
     info = None     #Info given by comparing code with guess
-    reduced_pool = None
+    reduced_pool = []
 
     def __init__(self, allColors, nPegs):
         self.allColors = allColors
@@ -31,7 +31,8 @@ class AIEntity:
 
     #Makes a new guess to be compared with the code
     def guess(self):
-        guess = self.pool[randint(0,len(self.pool))] #taking a random permutation from the pool
+
+        guess = self.pool[randint(0,len(self.pool) - 1)] #taking a random permutation from the pool
         self.new_guess = guess
         return guess
 
@@ -87,4 +88,4 @@ class AIEntity:
             if np.array_equal(new_info, self.info):
                 new_pool.append(combination)
 
-        self.reduced_pool = new_pool
+        self.pool = new_pool
