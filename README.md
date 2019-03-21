@@ -5,7 +5,7 @@ To execute the program with a random code and AI guessing:
 
 To change the number of colors and pegs use --ncolors and --pegs
 
-    Example to execute the program with 6 available colors and 5 pegs:
+   Example to execute the program with 6 available colors and 5 pegs:
 
         python3 masterMind.py --ncolors 6 --pegs 5
 
