@@ -77,9 +77,9 @@ class AIEntity:
 
         return info
 
-    # reduces the pool
+    #Reduces the pool by selecting those combination that gives the same info
     def reduce_pool(self):
-        new_pool = [] #np.zeros((625,),dtype=int)
+        new_pool = []
         counter = 0
 
         for combination in self.pool:
