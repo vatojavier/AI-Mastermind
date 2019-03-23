@@ -31,13 +31,6 @@ class test_entity:
         pool = [p for p in itertools.product(colors, repeat=self.nPegs)]
         return pool
 
-    #Makes a new guess to be compared with the code
-    def guess(self):
-
-        guess = self.pool[randint(0,len(self.pool) - 1)] #taking a random permutation from the pool
-        self.new_guess = guess
-        return guess
-
     #Returns the "black and white" info by comparing guess and code params
     def gen_info(self, guess, code):
         info = []
