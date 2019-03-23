@@ -45,7 +45,7 @@ def human_choose_color(all_colors,nPegs):
 #Just creates the [Black, Black, Black, Black] info
 def generate_goal_info(nPegs):
     goal_info = []
-    for i in range(nPegs + 1):
+    for i in range(nPegs):
         goal_info.append(1);
 
     return goal_info
