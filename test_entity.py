@@ -91,3 +91,7 @@ class test_entity:
         self.pool = new_pool
 
         return original_size - new_size
+
+    def get_first_guess(self):
+        guess = [1,1,2,3]
+        return guess
