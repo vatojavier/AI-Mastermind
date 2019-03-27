@@ -1,3 +1,4 @@
+from masterMind import gen_info
 import itertools
 import copy
 import numpy as np
@@ -29,53 +30,28 @@ class AIEntity:
         pool = [p for p in itertools.product(colors, repeat=self.nPegs)]
         return pool
 
-    #Makes a new guess to be compared with the code
-    def guess(self):
-
+    def random_guess(self):
         guess = self.pool[randint(0,len(self.pool) - 1)] #taking a random permutation from the pool
         self.new_guess = guess
         return guess
 
-    #Returns the "black and white" info by comparing guess and code params
-    def gen_info(self, guess, code):
-        info = []
-        black = 0
-        white = 0
+    #Makes a new guess to be compared with the code
+    def smart_guess(self):
 
-        #Converting guess and code to arrays to operate with them
-        guess = np.array(guess)
-        code = np.array(code)
+        if len(self.pool) == 625: #If it's the first guees play smart guess
+            print("Smart guess played")
+            guess = self.first_guess()
+            self.new_guess = guess
+            return guess
+        else:
+            guess = self.pool[randint(0,len(self.pool) - 1)] #taking a random permutation from the pool
+            self.new_guess = guess
+            return guess
 
-        #Creating empy info     REMOVES HARDCODE BUT SLOW, MAYBE ENTER PARMETER AS ARRAY INSTEAD
-        for i in range(self.nPegs):
-            info.append(None)
-
-        #info = np.array(info)
-
-        peg_compare = copy.deepcopy(guess)
-        code_compare = copy.deepcopy(code)
-
-        for i in range(self.nPegs):
-            if peg_compare[i] == code_compare[i]:
-                black += 1
-                peg_compare[i] = 0
-                code_compare[i] = -1
-
-        for i in range(self.nPegs):
-            for j in range(self.nPegs):
-                if (code_compare[i] == peg_compare[j]) and (i != j):
-                    white += 1
-                    peg_compare[j] = 0
-                    code_compare[i] = -1
-                    break
-
-        for i in range(black):
-            info[i] = 1
-
-        for i in range(black, black + white):
-            info[i] = 0
-
-        return info
+    #First guess that will reduce the maximum the pool
+    def first_guess(self):
+        smart_guess = [1,1,2,3]
+        return smart_guess
 
     #Reduces the pool by selecting those combination that gives the same info
     def reduce_pool(self):
@@ -83,9 +59,10 @@ class AIEntity:
         counter = 0
 
         for combination in self.pool:
-            new_info = self.gen_info(combination, self.new_guess)
+            new_info = gen_info(combination, self.new_guess)
             new_info = np.array(new_info)
             if np.array_equal(new_info, self.info):
                 new_pool.append(combination)
+
 
         self.pool = new_pool
