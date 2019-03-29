@@ -66,3 +66,61 @@ class AIEntity:
 
 
         self.pool = new_pool
+
+
+    def heuristic(self, guess, depth, min):
+
+        print("Depth: " + str(depth))
+        if depth == 6:
+            return len(self.pool)
+        depth += 1
+        info_set = set()
+        self.new_guess = guess
+        for combination in self.pool:
+
+            info_set.add(tuple(gen_info(guess,combination)))
+
+        A = self.create_array(len(info_set))
+
+        i = 0
+        pools_sum = 0
+        for info in info_set:
+            A[i].info = list(info)
+            A[i].reduce_pool()
+            pools_sum += len(A[i].pool)
+            i += 1
+
+        avg_poolsize = pools_sum / i
+
+        i = 0
+        max_pool = []
+        for info in info_set:
+            print("info: "+ str(info))
+            print("Lengt " + str(len(A[i].pool)))
+            print(avg_poolsize)
+            if len(A[i].pool) >= avg_poolsize:
+                print("Expanding pool of " + str(i))
+                H = [] #Array of length = A[i].pool
+                for guess in A[i].pool:
+                    print(guess)
+                    H.append(A[i].heuristic(guess, depth, min))
+                max_heuristic = max(H)
+                print("Heuristic of " + str(info) + str(H))
+
+                if (max_heuristic > min):
+                        return max_pool[i]
+                max_pool.append(max_heuristic)
+            i += 1
+        print(max_pool)
+
+        return max(max_pool)
+
+    #Return array of AI objects
+    def create_array(self,length):
+        A = []
+        for i in range(length):
+            AI = AIEntity(self.allColors,self.nPegs)
+            AI.pool = self.pool
+            AI.new_guess = self.new_guess
+            A.append(AI)
+        return A

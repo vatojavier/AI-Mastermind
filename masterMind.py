@@ -131,6 +131,7 @@ if __name__== "__main__":
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
     for i in range(10):
+        
         guess = AI.smart_guess()
         AI.info = gen_info(code, guess)
         print(guess, AI.info)
