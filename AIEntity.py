@@ -13,6 +13,7 @@ class AIEntity:
     info = None     #Info given by comparing code with guess
     reduced_pool = []
 
+
     def __init__(self, allColors, nPegs):
         self.allColors = allColors
         self.nPegs = nPegs
@@ -68,10 +69,13 @@ class AIEntity:
         self.pool = new_pool
 
 
-    def heuristic(self, guess, depth, min):
+    def heuristic(self, guess, depth, min_h):
 
-        print("Depth: " + str(depth))
-        if depth == 6:
+        if len(self.pool) == 1:
+            return 1
+
+        #print("Depth: " + str(depth))
+        if depth == 2:
             return len(self.pool)
         depth += 1
         info_set = set()
@@ -95,23 +99,24 @@ class AIEntity:
         i = 0
         max_pool = []
         for info in info_set:
-            print("info: "+ str(info))
-            print("Lengt " + str(len(A[i].pool)))
-            print(avg_poolsize)
+            #print("info: "+ str(info))
+            #print("Lengt " + str(len(A[i].pool)))
+            #print(avg_poolsize)
             if len(A[i].pool) >= avg_poolsize:
-                print("Expanding pool of " + str(i))
+                #print("Expanding pool of " + str(i))
                 H = [] #Array of length = A[i].pool
                 for guess in A[i].pool:
-                    print(guess)
-                    H.append(A[i].heuristic(guess, depth, min))
-                max_heuristic = max(H)
-                print("Heuristic of " + str(info) + str(H))
+                    #print(guess)
+                    H.append(A[i].heuristic(guess, depth, min_h))
+                max_heuristic = min(H)
+                #print("Heuristic of " + str(info) + str(H))
 
-                if (max_heuristic > min):
-                        return max_pool[i]
+                if (max_heuristic > min_h):
+                        #print("Max heuristic too large")
+                        return max_heuristic
                 max_pool.append(max_heuristic)
             i += 1
-        print(max_pool)
+        #print(max_pool)
 
         return max(max_pool)
 

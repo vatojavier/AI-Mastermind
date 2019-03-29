@@ -121,22 +121,38 @@ if __name__== "__main__":
     else:
         code = human_choose_color(all_colors, nPegs) #code will be selected by human
 
+    AI = AIEntity.AIEntity(5, 4)
 
-    print(goal_info)
-
-
-    #Creating AI entity
-    AI = AIEntity.AIEntity(all_colors, nPegs)
 
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
     for i in range(10):
+        if i == 0:
+            AI.new_guess= [1,1,2,3]
+            print(AI.new_guess)
+            AI.info = gen_info(code, [1,1,2,3])
+            AI.reduce_pool()
+            print(i)
 
-        guess = AI.smart_guess()
-        AI.info = gen_info(code, guess)
-        print(guess, AI.info)
-        AI.reduce_pool()
+        else:
+            h = np.zeros(len(AI.pool))
+            j = 0
+            min_h = len(AI.pool)
+            for guess in AI.pool:
+                h[j] = AI.heuristic(guess, 0, min_h)
 
-        if AI.info == goal_info:
-            print("AI wins the game")
-            break
+                if h[j] < min_h:
+                    min_h = h[j]
+                j=+1
+
+
+            h_min_index = np.argmin(h)
+            best_guess = AI.pool[h_min_index]
+            AI.new_guess=best_guess
+            AI.info = gen_info(code, best_guess)
+            print(AI.new_guess)
+            AI.reduce_pool()
+            print(i)
+            if AI.info == goal_info:
+                print("AI wins the game")
+                break
