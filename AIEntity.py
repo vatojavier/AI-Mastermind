@@ -37,7 +37,7 @@ class AIEntity:
             self.step += 1
             self.new_guess = self.first_guess()
             return self.new_guess
-        else:
+        else:   # Otherwise search the tree to generate heuristics
             h = np.zeros(len(self.pool))
             j = 0
             min_h = len(self.pool)
@@ -62,7 +62,8 @@ class AIEntity:
         return guess
 
     # First guess that will reduce the maximum the pool
-    def first_guess(self):
+    @staticmethod
+    def first_guess():
 
         smart_guess = [1, 2]
         return smart_guess
@@ -93,14 +94,14 @@ class AIEntity:
         for combination in self.pool:
             info_set.add(tuple(gen_info(guess, combination)))
 
-        A = self.create_array(len(info_set))
+        entity_array = self.create_array(len(info_set))
 
         i = 0
         pools_sum = 0
         for info in info_set:
-            A[i].info = list(info)
-            A[i].reduce_pool()
-            pools_sum += len(A[i].pool)
+            entity_array[i].info = list(info)
+            entity_array[i].reduce_pool()
+            pools_sum += len(entity_array[i].pool)
             i += 1
 
         avg_poolsize = pools_sum / i
@@ -108,33 +109,25 @@ class AIEntity:
         i = 0
         max_pool = []
         for info in info_set:
-            # print("info: "+ str(info))
-            # print("Lengt " + str(len(A[i].pool)))
-            # print(avg_poolsize)
-            if len(A[i].pool) >= avg_poolsize:
-                # print("Expanding pool of " + str(i))
+            if len(entity_array[i].pool) >= avg_poolsize:
                 H = []  # Array of length = A[i].pool
-                for guess in A[i].pool:
-                    # print(guess)
-                    H.append(A[i].heuristic(guess, depth, min_h))
+                for guess in entity_array[i].pool:
+                    H.append(entity_array[i].heuristic(guess, depth, min_h))
                 max_heuristic = min(H)
-                # print("Heuristic of " + str(info) + str(H))
 
                 if max_heuristic > min_h:
-                    # print("Max heuristic too large")
                     return max_heuristic
                 max_pool.append(max_heuristic)
             i += 1
-        # print(max_pool)
 
         return max(max_pool)
 
     # Return array of AI objects
     def create_array(self, length):
-        A = []
+        array = []
         for i in range(length):
             AI = AIEntity(self.allColors, self.nPegs)
             AI.pool = self.pool
             AI.new_guess = self.new_guess
-            A.append(AI)
-        return A
+            array.append(AI)
+        return array

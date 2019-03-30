@@ -19,31 +19,31 @@ def prep_parser():
     parser.add_argument("-p", "--nPegs", dest="nPegs",
                         help="Number of pegs (holes)", default="4")
 
-    options = parser.parse_args()
+    parser_options = parser.parse_args()
 
-    return options
+    return parser_options
 
 
 # Makes the human choose a color
-def human_choose_color(total_colors, n_pegs):
-    goal_code = np.zeros((n_pegs,), dtype=int)
+def human_choose_color(total_colors, peg_number):
+    new_code = np.zeros((peg_number,), dtype=int)
 
     print("Available colors: " + str(total_colors))
     print("Choose goal color code: ")
 
     inserted = 0
-    while inserted < n_pegs:
+    while inserted < peg_number:
         color = int(input("Color " + str(inserted + 1) + ": "))
         if 0 < color <= total_colors:
-            goal_code[inserted] = color
+            new_code[inserted] = color
             inserted = inserted + 1
         else:
             print("Enter a valid color, available colors: " + str(total_colors))
-    print(goal_code)
-    return goal_code
+    print(new_code)
+    return new_code
 
 
-###         functions of the board      ###
+#        functions of the board      #
 
 # Just creates the [Black, Black, Black, Black] info
 def generate_goal_info(n_pegs):
@@ -54,15 +54,15 @@ def generate_goal_info(n_pegs):
     return goal
 
 
-# Returns the "black and white" info by comparing guess and code_comp params
-def gen_info(new_guess, code_comp):
+# Returns the "black and white" info by comparing guess and code params
+def gen_info(guess, code_comp):
     info = []
     black = 0
     white = 0
-    peg_number = len(new_guess)
+    peg_number = len(guess)
 
     # Converting guess and code to arrays to operate with them
-    new_guess = np.array(new_guess)
+    guess = np.array(guess)
     code_comp = np.array(code_comp)
 
     # Creating empty info
@@ -71,7 +71,7 @@ def gen_info(new_guess, code_comp):
 
     # info = np.array(info)
 
-    peg_compare = copy.deepcopy(new_guess)
+    peg_compare = copy.deepcopy(guess)
     code_compare = copy.deepcopy(code_comp)
 
     for peg in range(peg_number):
@@ -102,8 +102,8 @@ def generate_code(total_colors, peg_number):
     goal_code = []
     colors = []
 
-    for i in range(1, total_colors + 1):
-        colors.append(i)
+    for new_color in range(1, total_colors + 1):
+        colors.append(new_color)
 
     for p in range(peg_number):
         goal_code.append(random.choice(colors))
@@ -112,7 +112,7 @@ def generate_code(total_colors, peg_number):
     return goal_code
 
 
-##      main program    ##
+#      main program    #
 if __name__ == "__main__":
 
     options = prep_parser()
@@ -125,20 +125,16 @@ if __name__ == "__main__":
     else:
         code = human_choose_color(all_colors, nPegs)  # code will be selected by human
 
-    print(goal_info)
-
-    # Creating AI entity
     AI = AIEntity.AIEntity(all_colors, nPegs)
 
     print(str(code) + "<---Code")
     print("-------------Guesses-------------")
     for i in range(10):
 
-        guess = AI.smart_guess()
-        AI.info = gen_info(code, guess)
-        print(guess, AI.info)
+        best_guess = AI.generate_guess()
+        AI.info = gen_info(code, best_guess)  # Actual guess played
+        print(AI.new_guess, AI.info)
         AI.reduce_pool()
-
         if AI.info == goal_info:
             print("AI wins the game")
             break
