@@ -34,9 +34,8 @@ class AIEntity:
     def generate_guess(self):
 
         if self.step == 0:  # If it's the first guess...
-            self.step += 1
             self.new_guess = self.first_guess()
-            return self.new_guess
+
         else:   # Otherwise search the tree to generate heuristics
             h = np.zeros(len(self.pool))
             j = 0
@@ -106,14 +105,13 @@ class AIEntity:
 
         avg_poolsize = pools_sum / i
 
-        i = 0
         max_pool = []
-        for info in info_set:
+        for i in range(len(info_set)):
             if len(entity_array[i].pool) >= avg_poolsize:
-                H = []  # Array of length = A[i].pool
+                heuristic = []  # Array of length = A[i].pool
                 for guess in entity_array[i].pool:
-                    H.append(entity_array[i].heuristic(guess, depth, min_h))
-                max_heuristic = min(H)
+                    heuristic.append(entity_array[i].heuristic(guess, depth, min_h))
+                max_heuristic = min(heuristic)
 
                 if max_heuristic > min_h:
                     return max_heuristic
