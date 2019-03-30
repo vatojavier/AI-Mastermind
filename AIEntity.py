@@ -11,13 +11,14 @@ class AIEntity:
     new_guess = None  # A new guess, we don't now yet how many pegs
     info = None  # Info given by comparing code with guess
     reduced_pool = []
+    step = 0  # Number of guesses played
 
     def __init__(self, all_colors, n_pegs):
         self.allColors = all_colors
         self.nPegs = n_pegs
         self.pool = self.generate_pool()  # generate the pool depending on number of colors
 
-    # Generates initial pool of 625 (with 5 different colors)
+    # Generates initial pool of 625 (with 5 different colors and 4 pegs)
     def generate_pool(self):
         colors = []
 
@@ -29,27 +30,41 @@ class AIEntity:
         pool = [p for p in itertools.product(colors, repeat=self.nPegs)]
         return pool
 
+    # Generates an actual guess depending in the step and computing the heuristic search
+    def generate_guess(self):
+
+        if self.step == 0:  # If it's the first guess...
+            self.step += 1
+            self.new_guess = self.first_guess()
+            return self.new_guess
+        else:
+            h = np.zeros(len(self.pool))
+            j = 0
+            min_h = len(self.pool)
+
+            for guess in self.pool:
+                h[j] = self.heuristic(guess, 0, min_h)
+
+                if h[j] < min_h:
+                    min_h = h[j]
+                j = +1
+
+            h_min_index = np.argmin(h)
+            best_guess = self.pool[h_min_index]
+            self.new_guess = best_guess
+
+        self.step += 1
+        return self.new_guess
+
     def random_guess(self):
         guess = self.pool[randint(0, len(self.pool) - 1)]  # taking a random permutation from the pool
         self.new_guess = guess
         return guess
 
-    # Makes a new guess to be compared with the code
-    def smart_guess(self):
-
-        if len(self.pool) == 625:  # If it's the first guees play smart guess
-            print("Smart guess played")
-            guess = self.first_guess()
-            self.new_guess = guess
-            return guess
-        else:
-            guess = self.pool[randint(0, len(self.pool) - 1)]  # taking a random permutation from the pool
-            self.new_guess = guess
-            return guess
-
     # First guess that will reduce the maximum the pool
     def first_guess(self):
-        smart_guess = [1, 1, 2, 3]
+
+        smart_guess = [1, 2]
         return smart_guess
 
     # Reduces the pool by selecting those combination that gives the same info
