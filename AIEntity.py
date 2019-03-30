@@ -116,7 +116,6 @@ class AIEntity:
                 if max_heuristic > min_h:
                     return max_heuristic
                 max_pool.append(max_heuristic)
-            i += 1
 
         return max(max_pool)
 

@@ -49,6 +49,21 @@ def test_second_guess():
 
     df.to_csv(path_or_buf="tests_result2.csv")
 
+def test_third_guess():
+
+    AI = test_entity(5, 4)
+    original_pool = AI.pool
+
+    reduced_pools1 = [] #Store the reduced pools of each code using first guess (1,1,2,3)
+
+    #Filling reduced pools using 1,1,2,3 guess
+    for i in range(len(original_pool)):
+        code = original_pool[i]
+        reduction = AI.get_reduction(code,AI.get_first_guess())
+        print("Storing reduced pool for " + str(code) + "with reduction "  + str(reduction))
+        reduced_pools1.append(AI.pool)
+        AI.pool = original_pool
+
 if __name__== "__main__":
     #test_first_guess()
     test_second_guess()
