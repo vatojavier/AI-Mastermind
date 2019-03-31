@@ -137,7 +137,7 @@ if __name__ == "__main__":
         print("-------------Guesses-------------")
         for i in range(10):
 
-            best_guess = AI.generate_guess()
+            best_guess = AI.random_guess()
             guess += 1
             AI.info = gen_info(code, best_guess)  # Actual guess played
             print(AI.new_guess, AI.info)
@@ -149,4 +149,4 @@ if __name__ == "__main__":
 
     average = sum(guess_array) / len(original_pool)
     worst_case = max(guess_array)
-    print("Average guess for heuristic AI without average tree pruning:  " + str(average) + " worst case: " + str(worst_case))
+    print("Average guess for naive AI: " + str(average) + " worst case: " + str(worst_case))

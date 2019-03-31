@@ -87,13 +87,13 @@ class AIEntity:
     def heuristic(self, guess, depth, min_h):
         #self.c_print("For guess " + str(guess) + ": ", depth)
         #self.c_print("Depth: " + str(depth),depth)
-        print("In depth " + str(depth))
+        #print("In depth " + str(depth))
         if len(self.pool) == 1:
             #self.c_print("Min pool size of 1 reached", depth)
             return 1
 
         # print("Depth: " + str(depth))
-        if depth == 3:
+        if depth == 2:
             #self.c_print("Max depth reached, returning pool size of " + str(len(self.pool)), depth)
             return len(self.pool)
 
@@ -121,15 +121,15 @@ class AIEntity:
         max_pool = []
         for i in range(len(info_set)):
             #self.c_print("Pool of this info: " + str(entity_array[i].pool), depth)
-            if len(entity_array[i].pool) >= avg_poolsize:
-                heuristic = []  # Array of length = A[i].pool
-                for guess in entity_array[i].pool:
-                    heuristic.append(entity_array[i].heuristic(guess, depth, min_h))
-                min_heuristic = min(heuristic)
+            #if len(entity_array[i].pool) >= avg_poolsize:
+            heuristic = []  # Array of length = A[i].pool
+            for guess in entity_array[i].pool:
+                heuristic.append(entity_array[i].heuristic(guess, depth, min_h))
+            min_heuristic = min(heuristic)
 
-                if min_heuristic > min_h:
-                    return min_heuristic
-                max_pool.append(min_heuristic)  # Adding to max_pool the minimum heuristic
+            if min_heuristic > min_h:
+                return min_heuristic
+            max_pool.append(min_heuristic)  # Adding to max_pool the minimum heuristic
 
         #self.c_print("Returning " + str(max(max_pool)), depth)
         return max(max_pool)  # Returning the maximum of the minimum heuristic haha

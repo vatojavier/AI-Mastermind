@@ -127,6 +127,14 @@ if __name__ == "__main__":
 
     AI = AIEntity.AIEntity(all_colors, nPegs)
 
-    h = AI.heuristic((1, 1, 2, 2), 0, 100000)
+    #1111
+    #1112
+
+    #1122
+    #1123
+    #1234
+
+    print("1112")
+    h = AI.heuristic((1, 1, 1, 2), 0, 100000)
     print(h)
     #AI.generate_guess()
