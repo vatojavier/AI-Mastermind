@@ -16,9 +16,6 @@ def prep_parser():
     parser.add_argument("-n", "--ncolors", dest="all_colors",
                         help="Number of total available colors", default="5")
 
-    parser.add_argument("-p", "--nPegs", dest="nPegs",
-                        help="Number of pegs (holes)", default="4")
-
     parser_options = parser.parse_args()
 
     return parser_options
@@ -116,7 +113,7 @@ def generate_code(total_colors, peg_number):
 if __name__ == "__main__":
 
     options = prep_parser()
-    nPegs = int(options.nPegs)
+    nPegs = 4
     goal_info = generate_goal_info(nPegs)
     all_colors = int(options.all_colors)
 
@@ -127,6 +124,8 @@ if __name__ == "__main__":
 
     AI = AIEntity.AIEntity(all_colors, nPegs)
     original_pool = AI.pool
+
+    print("\n\nPlaying the game using all possible codes, this test WILL TAKE SEVERAL HOURS!\n\n")
 
     guess_array = []
     for code in original_pool:
@@ -149,4 +148,4 @@ if __name__ == "__main__":
 
     average = sum(guess_array) / len(original_pool)
     worst_case = max(guess_array)
-    print("Average guess for heuristic AI without average tree pruning:  " + str(average) + " worst case: " + str(worst_case))
+    print("Average guess for heuristic AI with average tree pruning:  " + str(average) + " worst case: " + str(worst_case))

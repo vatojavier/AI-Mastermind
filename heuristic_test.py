@@ -16,8 +16,6 @@ def prep_parser():
     parser.add_argument("-n", "--ncolors", dest="all_colors",
                         help="Number of total available colors", default="5")
 
-    parser.add_argument("-p", "--nPegs", dest="nPegs",
-                        help="Number of pegs (holes)", default="4")
 
     parser_options = parser.parse_args()
 
@@ -116,7 +114,7 @@ def generate_code(total_colors, peg_number):
 if __name__ == "__main__":
 
     options = prep_parser()
-    nPegs = int(options.nPegs)
+    nPegs = 4
     goal_info = generate_goal_info(nPegs)
     all_colors = int(options.all_colors)
 
