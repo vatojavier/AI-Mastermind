@@ -39,7 +39,7 @@ class AIEntity:
     @staticmethod
     def first_guess():
 
-        smart_guess = [1, 1]
+        smart_guess = [1, 1, 2, 3]
         return smart_guess
 
     # Reduces the pool by selecting those combination that gives the same info
@@ -57,7 +57,7 @@ class AIEntity:
     # Generates an actual guess choosing the MINIMUM heuristic
     def generate_guess(self):
 
-        if self.step == 70:  # If it's the first guess...
+        if self.step == 0:  # If it's the first guess...
             self.new_guess = self.first_guess()
 
         else:  # Otherwise search the tree to generate heuristics
@@ -66,33 +66,35 @@ class AIEntity:
             min_h = len(self.pool)
 
             for guess in self.pool:
+                #print("loop")
                 h[j] = self.heuristic(guess, 0, min_h)
-                print("Heuristic of guess" + str(guess) + " is " + str(h[j]))
+                #print("Heuristic of guess" + str(guess) + " is " + str(h[j]))
+
                 if h[j] < min_h:
                     min_h = h[j]
-                j = +1
+                j += 1
 
             h_min_index = np.argmin(h)
-            print("The min index is: " + str(h_min_index))
+            #print("The min index is: " + str(h_min_index))
             best_guess = self.pool[h_min_index]
             self.new_guess = best_guess
-            print(h)
-            print("So the new guess is: " + str(self.new_guess))
+            #print(str(h))
+            #print("So the new guess is: " + str(self.new_guess))
         self.step += 1
         return self.new_guess
 
     # Generates heuristic by returning the MAXIMUM pool size of the pools at selected depth
     def heuristic(self, guess, depth, min_h):
-        self.c_print("For guess " + str(guess) + ": ", depth)
-        self.c_print("Depth: " + str(depth),depth)
-
+        #self.c_print("For guess " + str(guess) + ": ", depth)
+        #self.c_print("Depth: " + str(depth),depth)
+        print("In depth " + str(depth))
         if len(self.pool) == 1:
-            self.c_print("Min pool size of 1 reached", depth)
+            #self.c_print("Min pool size of 1 reached", depth)
             return 1
 
         # print("Depth: " + str(depth))
-        if depth == 2:
-            self.c_print("Max depth reached, returning pool size of " + str(len(self.pool)), depth)
+        if depth == 3:
+            #self.c_print("Max depth reached, returning pool size of " + str(len(self.pool)), depth)
             return len(self.pool)
 
         depth += 1
@@ -105,20 +107,20 @@ class AIEntity:
 
         i = 0
         pools_sum = 0
-        self.c_print("Possible infos: ", depth)
+        #self.c_print("Possible infos: ", depth)
         for info in info_set:
             entity_array[i].info = list(info)
             entity_array[i].reduce_pool()
-            self.c_print(str(info) + " with pool size of " + str(len(entity_array[i].pool)), depth)
+            #self.c_print(str(info) + " with pool size of " + str(len(entity_array[i].pool)), depth)
             pools_sum += len(entity_array[i].pool)
             i += 1
 
         avg_poolsize = pools_sum / i
-        self.c_print("Average pool size of depth " + str(depth) + ": " + str(avg_poolsize), depth)
+        #self.c_print("Average pool size of depth " + str(depth) + ": " + str(avg_poolsize), depth)
 
         max_pool = []
         for i in range(len(info_set)):
-            self.c_print("Pool of this info: " + str(entity_array[i].pool), depth)
+            #self.c_print("Pool of this info: " + str(entity_array[i].pool), depth)
             if len(entity_array[i].pool) >= avg_poolsize:
                 heuristic = []  # Array of length = A[i].pool
                 for guess in entity_array[i].pool:
@@ -129,7 +131,7 @@ class AIEntity:
                     return min_heuristic
                 max_pool.append(min_heuristic)  # Adding to max_pool the minimum heuristic
 
-        self.c_print("Returning " + str(max(max_pool)), depth)
+        #self.c_print("Returning " + str(max(max_pool)), depth)
         return max(max_pool)  # Returning the maximum of the minimum heuristic haha
 
     # Return array of AI objects

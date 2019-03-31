@@ -127,6 +127,6 @@ if __name__ == "__main__":
 
     AI = AIEntity.AIEntity(all_colors, nPegs)
 
-    #h = AI.heuristic((1, 3), 0, 10000)
-    #print(h)
-    AI.generate_guess()
+    h = AI.heuristic((1, 1, 2, 2), 0, 100000)
+    print(h)
+    #AI.generate_guess()
