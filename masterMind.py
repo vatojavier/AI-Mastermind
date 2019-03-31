@@ -128,12 +128,12 @@ if __name__ == "__main__":
     AI = AIEntity.AIEntity(all_colors, nPegs)
 
     print(str(code) + "<---Code")
-    print("-------------Guesses-------------")
+    print("---Guesses---\t---Info---")
     for i in range(10):
 
         best_guess = AI.generate_guess()
         AI.info = gen_info(code, best_guess)  # Actual guess played
-        print(AI.new_guess, AI.info)
+        print(str(AI.new_guess) + "\t" + str(AI.info))
         AI.reduce_pool()
         if AI.info == goal_info:
             print("AI wins the game")
